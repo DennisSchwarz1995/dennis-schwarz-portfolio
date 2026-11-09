@@ -1,0 +1,126 @@
+name: dennis-schwarz-infrastructure
+
+services:
+  # ============================================================================
+  # 1. Reverse Proxy & Automated Let's Encrypt SSL (Traefik v3)
+  # ============================================================================
+  traefik:
+    image: traefik:v3.2
+    container_name: traefik
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    command:
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--providers.docker.network=proxy-net"
+      # EntryPoints: HTTP (80) -> permanent redirect to HTTPS (443)
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+      - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
+      - "--entrypoints.websecure.address=:443"
+      - "--entrypoints.websecure.http3=true"
+      # Let's Encrypt ACME (TLS-ALPN-01 challenge via port 443)
+      - "--certificatesresolvers.letsencrypt.acme.tlschallenge=true"
+      - "--certificatesresolvers.letsencrypt.acme.email=${ACME_EMAIL:-kontakt@dennis-schwarz.dev}"
+      - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
+      - "--log.level=INFO"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./letsencrypt:/letsencrypt
+    networks:
+      - proxy-net
+
+  # ============================================================================
+  # 2. Main Portfolio (https://dennis-schwarz.dev & www redirect)
+  # ============================================================================
+  portfolio:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: dennis-schwarz/portfolio:latest
+    container_name: portfolio-main
+    restart: unless-stopped
+    networks:
+      - proxy-net
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.portfolio.rule=Host(`dennis-schwarz.dev`) || Host(`www.dennis-schwarz.dev`)"
+      - "traefik.http.routers.portfolio.priority=10"
+      - "traefik.http.routers.portfolio.entrypoints=websecure"
+      - "traefik.http.routers.portfolio.tls.certresolver=letsencrypt"
+      - "traefik.http.services.portfolio.loadbalancer.server.port=80"
+      # Middleware 1: www.dennis-schwarz.dev -> dennis-schwarz.dev
+      - "traefik.http.middlewares.redirect-www.redirectregex.regex=^https://www\\.dennis-schwarz\\.dev/(.*)"
+      - "traefik.http.middlewares.redirect-www.redirectregex.replacement=https://dennis-schwarz.dev/$${1}"
+      - "traefik.http.middlewares.redirect-www.redirectregex.permanent=true"
+      # Middleware 2: Security headers (HSTS, nosniff, frame protection)
+      - "traefik.http.middlewares.sec-headers.headers.stsSeconds=31536000"
+      - "traefik.http.middlewares.sec-headers.headers.stsIncludeSubdomains=true"
+      - "traefik.http.middlewares.sec-headers.headers.stsPreload=true"
+      - "traefik.http.middlewares.sec-headers.headers.contentTypeNosniff=true"
+      - "traefik.http.middlewares.sec-headers.headers.browserXssFilter=true"
+      - "traefik.http.middlewares.sec-headers.headers.frameDeny=false"
+      - "traefik.http.middlewares.sec-headers.headers.customFrameOptionsValue=SAMEORIGIN"
+      - "traefik.http.routers.portfolio.middlewares=redirect-www@docker,sec-headers@docker"
+
+  # ============================================================================
+  # 3. Contact Form Mail API (POST https://dennis-schwarz.dev/api/contact)
+  # ============================================================================
+  portfolio-mailer:
+    build:
+      context: ./mailer
+      dockerfile: Dockerfile
+    image: dennis-schwarz/portfolio-mailer:latest
+    container_name: portfolio-mailer
+    restart: unless-stopped
+    environment:
+      - PORT=3000
+      - MAIL_TO=${MAIL_TO:-kontakt@dennis-schwarz.dev}
+      - MAIL_FROM=${MAIL_FROM:-kontakt@dennis-schwarz.dev}
+      - SMTP_HOST=${SMTP_HOST:-}
+      - SMTP_PORT=${SMTP_PORT:-587}
+      - SMTP_SECURE=${SMTP_SECURE:-false}
+      - SMTP_USER=${SMTP_USER:-}
+      - SMTP_PASS=${SMTP_PASS:-}
+    networks:
+      - proxy-net
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mailer.rule=Host(`dennis-schwarz.dev`) && PathPrefix(`/api/contact`)"
+      - "traefik.http.routers.mailer.priority=100"
+      - "traefik.http.routers.mailer.entrypoints=websecure"
+      - "traefik.http.routers.mailer.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.mailer.middlewares=sec-headers@docker"
+      - "traefik.http.services.mailer.loadbalancer.server.port=3000"
+
+  # ============================================================================
+  # 4. Example Subdomain Project: Join (https://join.dennis-schwarz.dev)
+  #    Additional projects (sharkie.dennis-schwarz.dev, dabubble.dennis-schwarz.dev)
+  #    follow the exact same pattern or run in their own Compose stacks.
+  # ============================================================================
+  project-join:
+    image: nginx:1.27-alpine
+    container_name: project-join
+    restart: unless-stopped
+    volumes:
+      - /srv/projects/join:/usr/share/nginx/html:ro
+    networks:
+      - proxy-net
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.join.rule=Host(`join.dennis-schwarz.dev`)"
+      - "traefik.http.routers.join.entrypoints=websecure"
+      - "traefik.http.routers.join.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.join.middlewares=sec-headers@docker"
+      - "traefik.http.services.join.loadbalancer.server.port=80"
+
+networks:
+  proxy-net:
+    name: proxy-net
+    driver: bridge

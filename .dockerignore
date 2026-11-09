@@ -1,0 +1,26 @@
+# Dependencies & Build Outputs
+node_modules
+dist
+.angular
+out-tsc
+coverage
+
+# Legacy Reference & Backend Microservice (exclude from frontend build context)
+portfolio-alt
+mailer
+
+# Git, IDE & Local Env
+.git
+.gitignore
+.vscode
+.idea
+.editorconfig
+.env
+.env.*
+
+# Docker & Docs
+Dockerfile
+docker-compose*.yml
+letsencrypt
+*.md
+*.log
