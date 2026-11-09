@@ -1,0 +1,234 @@
+:host {
+  display: block;
+}
+
+.contact {
+  padding: var(--section-pad-y) var(--section-pad-x);
+  background-color: var(--bg-primary);
+  border-top: 1px solid var(--border-subtle);
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: clamp(2.5rem, 6vw, 5rem);
+    align-items: start;
+
+    @media (max-width: 960px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__subtitle {
+    margin: 1.75rem 0 0.75rem;
+    font-family: var(--font-display);
+    font-size: 1.18rem;
+    font-weight: 600;
+    color: var(--accent-bronze-muted);
+  }
+
+  &__lead {
+    margin: 0 0 2.5rem;
+    color: var(--text-secondary);
+    line-height: 1.75;
+  }
+
+  &__channels {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    padding-top: 1.75rem;
+    border-top: 1px solid var(--border-hairline);
+  }
+
+  &__card {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-hairline);
+    border-radius: 6px;
+    padding: clamp(1.5rem, 3.5vw, 2.75rem);
+  }
+}
+
+.channel-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+
+  &__label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  &__value {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    text-decoration: none;
+
+    &--link {
+      color: var(--accent-bronze);
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: var(--accent-bronze-hover);
+      }
+    }
+  }
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  &__honeypot {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  &__submit {
+    align-self: flex-start;
+    margin-top: 0.35rem;
+  }
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  &__label {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent-bronze-muted);
+  }
+
+  &__input {
+    width: 100%;
+    padding: 0.9rem 1rem;
+    border-radius: 3px;
+    background-color: var(--bg-primary);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-primary);
+    font-size: 0.98rem;
+    transition:
+      border-color 0.3s ease,
+      box-shadow 0.3s ease;
+
+    &::placeholder {
+      color: var(--text-muted);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: var(--accent-bronze);
+      box-shadow: 0 0 0 3px rgba(197, 131, 43, 0.14);
+    }
+
+    &--textarea {
+      resize: vertical;
+      min-height: 120px;
+      line-height: 1.6;
+    }
+  }
+
+  &--invalid &__input {
+    border-color: #d96b59;
+  }
+
+  &__error {
+    font-size: 0.8rem;
+    color: #e48374;
+  }
+}
+
+.consent-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+
+  &__label {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    cursor: pointer;
+  }
+
+  &__checkbox {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  &__box {
+    width: 20px;
+    height: 20px;
+    margin-top: 2px;
+    border-radius: 3px;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-hairline-strong);
+    color: transparent;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition:
+      background-color 0.25s ease,
+      border-color 0.25s ease,
+      color 0.25s ease;
+  }
+
+  &__checkbox:checked + &__box {
+    background-color: var(--accent-bronze);
+    border-color: var(--accent-bronze);
+    color: #101010;
+  }
+
+  &__checkbox:focus-visible + &__box {
+    outline: 2px solid var(--accent-bronze);
+    outline-offset: 2px;
+  }
+
+  &__text {
+    font-size: 0.88rem;
+    line-height: 1.55;
+    color: var(--text-secondary);
+  }
+
+  &__link {
+    color: var(--accent-bronze);
+    text-underline-offset: 3px;
+
+    &:hover {
+      color: var(--accent-bronze-hover);
+    }
+  }
+}
+
+.form-banner {
+  padding: 0.95rem 1.15rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+
+  &--success {
+    background: rgba(197, 131, 43, 0.14);
+    border: 1px solid var(--accent-bronze);
+    color: var(--text-primary);
+  }
+
+  &--error {
+    background: rgba(217, 107, 89, 0.12);
+    border: 1px solid rgba(217, 107, 89, 0.55);
+    color: #f3b5ab;
+  }
+}
+

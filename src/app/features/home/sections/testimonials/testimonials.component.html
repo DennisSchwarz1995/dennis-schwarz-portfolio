@@ -1,0 +1,40 @@
+<section id="testimonials" class="testimonials">
+  <div class="section-container">
+    <header class="testimonials__header" appReveal="fade-up">
+      <span class="eyebrow">{{ 'TESTIMONIALS_EYEBROW' | translate }}</span>
+      <h2 class="section-title">{{ 'COLLEAGUES_ABOUT_ME' | translate }}</h2>
+    </header>
+
+    <div class="testimonials__grid">
+      @for (item of testimonials; track item.id; let idx = $index) {
+        <blockquote
+          class="quote-card"
+          appReveal="fade-up"
+          [revealDelay]="idx * 0.1"
+        >
+          <div class="quote-card__mark" aria-hidden="true">
+            <svg width="28" height="22" viewBox="0 0 28 22" fill="none">
+              <path
+                d="M0 22V12.6C0 5.04 4.2 1.12 11.2 0L12.6 2.8C8.12 3.92 5.88 6.72 5.6 10.64H11.2V22H0ZM15.4 22V12.6C15.4 5.04 19.6 1.12 26.6 0L28 2.8C23.52 3.92 21.28 6.72 21 10.64H26.6V22H15.4Z"
+                fill="currentColor"
+              />
+            </svg>
+          </div>
+
+          <p class="quote-card__text">
+            “{{ item.quoteKey | translate }}”
+          </p>
+
+          <footer class="quote-card__author">
+            <span class="quote-card__avatar" aria-hidden="true">{{ getInitials(item.author) }}</span>
+            <div>
+              <cite class="quote-card__name">{{ item.author }}</cite>
+              <span class="quote-card__role">{{ item.roleKey | translate }}</span>
+            </div>
+          </footer>
+        </blockquote>
+      }
+    </div>
+  </div>
+</section>
+

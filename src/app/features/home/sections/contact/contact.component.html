@@ -1,0 +1,142 @@
+<section id="contact" class="contact">
+  <div class="section-container contact__grid">
+    <!-- Left Column: Direct Channels & Context -->
+    <div class="contact__info" appReveal="fade-up">
+      <span class="eyebrow">{{ 'CONTACT_EYEBROW' | translate }}</span>
+      <h2 class="section-title">{{ 'WORK_TOGETHER' | translate }}</h2>
+
+      <h3 class="contact__subtitle">{{ 'PROBLEM_TO_SOLVE' | translate }}</h3>
+      <p class="contact__lead">
+        {{ 'CONTACT_ME_FORM_INFO' | translate }}
+      </p>
+
+      <div class="contact__channels">
+        <div class="channel-item">
+          <span class="channel-item__label">{{ 'CONTACT_DIRECT_LABEL' | translate }}</span>
+          <a href="mailto:kontakt@dennis-schwarz.dev" class="channel-item__value channel-item__value--link">
+            kontakt&#64;dennis-schwarz.dev
+          </a>
+        </div>
+
+        <div class="channel-item">
+          <span class="channel-item__label">{{ 'CONTACT_LOCATION_LABEL' | translate }}</span>
+          <span class="channel-item__value">{{ 'CONTACT_LOCATION_VALUE' | translate }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Reactive Contact Form -->
+    <div class="contact__card" appReveal="fade-up" [revealDelay]="0.12">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate class="contact-form">
+        <!-- Hidden Honeypot Field -->
+        <div class="contact-form__honeypot" aria-hidden="true">
+          <label for="website">Website</label>
+          <input id="website" type="text" formControlName="website" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <div class="form-field" [class.form-field--invalid]="hasFieldError('name')">
+          <label for="contact-name" class="form-field__label">
+            {{ 'CONTACT_ME_FORM_NAME' | translate }}
+          </label>
+          <input
+            id="contact-name"
+            type="text"
+            formControlName="name"
+            autocomplete="name"
+            class="form-field__input"
+            [placeholder]="'CONTACT_ME_FORM_NAME_PLACEHOLDER' | translate"
+          />
+          @if (hasFieldError('name')) {
+            <span class="form-field__error">{{ 'CONTACT_ME_FORM_ERROR_NAME' | translate }}</span>
+          }
+        </div>
+
+        <div class="form-field" [class.form-field--invalid]="hasFieldError('email')">
+          <label for="contact-email" class="form-field__label">
+            {{ 'CONTACT_ME_FORM_EMAIL' | translate }}
+          </label>
+          <input
+            id="contact-email"
+            type="email"
+            formControlName="email"
+            autocomplete="email"
+            class="form-field__input"
+            [placeholder]="'CONTACT_ME_FORM_EMAIL_PLACEHOLDER' | translate"
+          />
+          @if (hasFieldError('email')) {
+            <span class="form-field__error">{{ 'CONTACT_ME_FORM_ERROR_EMAIL' | translate }}</span>
+          }
+        </div>
+
+        <div class="form-field" [class.form-field--invalid]="hasFieldError('message')">
+          <label for="contact-message" class="form-field__label">
+            {{ 'CONTACT_ME_FORM_MESSAGE' | translate }}
+          </label>
+          <textarea
+            id="contact-message"
+            rows="4"
+            formControlName="message"
+            class="form-field__input form-field__input--textarea"
+            [placeholder]="'CONTACT_ME_FORM_MESSAGE_PLACEHOLDER' | translate"
+          ></textarea>
+          @if (hasFieldError('message')) {
+            <span class="form-field__error">{{ 'CONTACT_ME_FORM_ERROR_MESSAGE' | translate }}</span>
+          }
+        </div>
+
+        <div class="consent-field" [class.consent-field--invalid]="hasFieldError('privacyAccepted')">
+          <label class="consent-field__label">
+            <input
+              type="checkbox"
+              formControlName="privacyAccepted"
+              class="consent-field__checkbox"
+            />
+            <span class="consent-field__box" aria-hidden="true">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+            <span class="consent-field__text">
+              {{ 'CONTACT_ME_FORM_PRIVACY_POLICY_INFO_1' | translate }}
+              <a routerLink="/privacy-policy" class="consent-field__link">
+                {{ 'PRIVACY_POLICY' | translate }}
+              </a>
+              {{ 'CONTACT_ME_FORM_PRIVACY_POLICY_INFO_2' | translate }}
+            </span>
+          </label>
+          @if (hasFieldError('privacyAccepted')) {
+            <span class="form-field__error">{{ 'CONTACT_ME_FORM_PRIVACY_POLICY' | translate }}</span>
+          }
+        </div>
+
+        <button
+          type="submit"
+          class="btn btn--bronze contact-form__submit"
+          [disabled]="submitState() === 'submitting'"
+        >
+          <span>
+            {{
+              (submitState() === 'submitting' ? 'SENDING_MESSAGE' : 'SEND_MESSAGE') | translate
+            }}
+          </span>
+          <svg class="btn__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+
+        @if (submitState() === 'success') {
+          <div class="form-banner form-banner--success" role="status">
+            {{ 'CONFIRMATION_MESSAGE' | translate }}
+          </div>
+        }
+
+        @if (submitState() === 'error') {
+          <div class="form-banner form-banner--error" role="alert">
+            {{ 'SEND_ERROR_MESSAGE' | translate }}
+          </div>
+        }
+      </form>
+    </div>
+  </div>
+</section>
+
