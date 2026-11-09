@@ -1,0 +1,89 @@
+name: Portfolio CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  quality-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: Install Frontend Dependencies
+        run: npm ci
+
+      - name: Run Linter & Tests
+        run: |
+          npm run lint --if-present
+          npm test -- --watch=false --if-present
+
+      - name: Verify Production Build
+        run: npm run build -- --configuration=production
+
+  docker-and-deploy:
+    needs: quality-and-build
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Prepare Lowercase Image Names
+        id: meta
+        run: |
+          OWNER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+          echo "frontend_image=${{ env.REGISTRY }}/${OWNER}/portfolio:latest" >> $GITHUB_OUTPUT
+          echo "mailer_image=${{ env.REGISTRY }}/${OWNER}/portfolio-mailer:latest" >> $GITHUB_OUTPUT
+
+      - name: Build and Push Frontend Image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.frontend_image }}
+
+      - name: Build and Push Mailer Image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./mailer
+          file: ./mailer/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.mailer_image }}
+
+      - name: Deploy to Netcup VPS via SSH
+        uses: appleboy/ssh-action@v1.1.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+            cd ~/apps/portfolio
+            docker compose pull
+            docker compose up -d
+            docker image prune -f
