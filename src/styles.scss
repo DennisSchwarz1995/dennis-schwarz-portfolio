@@ -1,0 +1,225 @@
+@use './styles/tokens';
+@use './styles/fonts';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  overflow-x: hidden;
+}
+
+::selection {
+  background-color: rgba(197, 131, 43, 0.32);
+  color: var(--text-primary);
+}
+
+/* Custom Dark-Bronze Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2c261e;
+  border-radius: 999px;
+  border: 2px solid var(--bg-primary);
+
+  &:hover {
+    background: var(--accent-bronze-muted);
+  }
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-bronze);
+  outline-offset: 3px;
+}
+
+/* Hardware-accelerated, flicker-free Scroll Reveal System */
+.reveal-init {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.65s var(--ease-luxury),
+    transform 0.65s var(--ease-luxury);
+  transition-delay: var(--reveal-delay, 0s);
+
+  &--scale {
+    transform: translateY(14px) scale(0.98);
+  }
+
+  &--fade {
+    transform: none;
+  }
+
+  &--line {
+    transform: scaleX(0);
+    transform-origin: left center;
+  }
+
+  &.reveal-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal-init {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* Shared Luxury Section Layout */
+.section-container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent-bronze-muted);
+
+  &::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 1px;
+    background-color: var(--accent-bronze);
+  }
+}
+
+.section-title {
+  margin: 0.9rem 0 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  line-height: 1.12;
+  letter-spacing: -0.028em;
+  color: var(--text-primary);
+}
+
+.section-lead {
+  margin: 1.25rem 0 0;
+  max-width: 60ch;
+  font-size: clamp(1rem, 1.2vw, 1.125rem);
+  line-height: 1.75;
+  color: var(--text-secondary);
+}
+
+/* Shared Luxury Buttons */
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  padding: 0.92rem 1.75rem;
+  border-radius: 3px;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform 0.35s var(--ease-luxury),
+    border-color 0.35s var(--ease-luxury),
+    background-color 0.35s var(--ease-luxury),
+    color 0.35s var(--ease-luxury),
+    box-shadow 0.35s var(--ease-luxury);
+
+  &__icon {
+    transition: transform 0.35s var(--ease-luxury);
+  }
+
+  &--bronze {
+    background-color: var(--accent-bronze);
+    border: 1px solid var(--accent-bronze);
+    color: #0f0f0f;
+
+    &:hover:not(:disabled) {
+      background-color: var(--accent-bronze-hover);
+      border-color: var(--accent-bronze-hover);
+      box-shadow: 0 12px 32px rgba(197, 131, 43, 0.26);
+      transform: translateY(-2px);
+
+      .btn__icon {
+        transform: translate(3px, -3px);
+      }
+    }
+  }
+
+  &--ghost {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-hairline);
+    color: var(--text-primary);
+
+    &:hover:not(:disabled) {
+      border-color: var(--accent-bronze);
+      background-color: var(--bg-surface-elevated);
+      color: var(--text-primary);
+      transform: translateY(-2px);
+
+      .btn__icon {
+        transform: translate(3px, -3px);
+      }
+    }
+  }
+
+  &:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+}
