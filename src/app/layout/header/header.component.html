@@ -1,0 +1,96 @@
+<header
+  class="header"
+  [class.header--scrolled]="isScrolled()"
+  [class.header--menu-open]="isMobileMenuOpen()"
+>
+  <div class="header__inner">
+    <!-- Brand Monogram + Name -->
+    <button type="button" class="brand" (click)="goHome()" aria-label="Dennis Schwarz – Home">
+      <span class="brand__monogram" aria-hidden="true">DS</span>
+      <span class="brand__text">
+        <span class="brand__name">Dennis Schwarz</span>
+        <span class="brand__role">{{ 'TITLE' | translate }}</span>
+      </span>
+    </button>
+
+    <!-- Desktop Navigation -->
+    <nav class="nav-desktop" aria-label="Primary Navigation">
+      @for (item of navItems; track item.id) {
+        <button type="button" class="nav-desktop__link" (click)="navigate(item.id)">
+          {{ item.labelKey | translate }}
+        </button>
+      }
+    </nav>
+
+    <!-- Right Controls: Bilingual Switch DE | EN + Mobile Burger -->
+    <div class="header__controls">
+      <div class="lang-switch" role="group" aria-label="Language Switcher">
+        <button
+          type="button"
+          class="lang-switch__btn"
+          [class.lang-switch__btn--active]="i18n.lang() === 'de'"
+          (click)="selectLanguage('de')"
+        >
+          DE
+        </button>
+        <button
+          type="button"
+          class="lang-switch__btn"
+          [class.lang-switch__btn--active]="i18n.lang() === 'en'"
+          (click)="selectLanguage('en')"
+        >
+          EN
+        </button>
+      </div>
+
+      <button
+        type="button"
+        class="header__cta"
+        (click)="navigate('contact')"
+      >
+        {{ 'LETS_TALK' | translate }}
+      </button>
+
+      <button
+        type="button"
+        class="burger"
+        [class.burger--open]="isMobileMenuOpen()"
+        [attr.aria-expanded]="isMobileMenuOpen()"
+        aria-label="Toggle Menu"
+        (click)="toggleMobileMenu()"
+      >
+        <span class="burger__line"></span>
+        <span class="burger__line"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Overlay Navigation -->
+  @if (isMobileMenuOpen()) {
+    <div class="mobile-drawer">
+      <nav class="mobile-drawer__nav" aria-label="Mobile Navigation">
+        @for (item of navItems; track item.id; let idx = $index) {
+          <button
+            type="button"
+            class="mobile-drawer__link"
+            (click)="navigate(item.id)"
+          >
+            <span class="mobile-drawer__index">0{{ idx + 1 }}</span>
+            <span>{{ item.labelKey | translate }}</span>
+          </button>
+        }
+      </nav>
+
+      <div class="mobile-drawer__footer">
+        <a href="mailto:kontakt@dennis-schwarz.dev" class="mobile-drawer__mail">
+          kontakt&#64;dennis-schwarz.dev
+        </a>
+        <div class="mobile-drawer__socials">
+          <a href="https://github.com/DennisSchwarz1995" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="https://www.linkedin.com/in/dennis-schwarz-47ba5b338/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  }
+</header>
+

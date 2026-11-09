@@ -1,0 +1,57 @@
+<footer class="footer">
+  <div class="footer__inner section-container">
+    <div class="footer__brand">
+      <div class="footer__logo-row">
+        <span class="footer__monogram" aria-hidden="true">DS</span>
+        <div>
+          <p class="footer__name">Dennis Schwarz</p>
+          <p class="footer__role">{{ 'FOOTER_DEVELOPER' | translate }} · Saarland, {{ 'COUNTRY' | translate }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer__links">
+      <a
+        href="https://github.com/DennisSchwarz1995"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="footer__link"
+      >
+        GitHub
+      </a>
+      <a
+        href="https://www.linkedin.com/in/dennis-schwarz-47ba5b338/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="footer__link"
+      >
+        LinkedIn
+      </a>
+      <a href="mailto:kontakt@dennis-schwarz.dev" class="footer__link">
+        kontakt&#64;dennis-schwarz.dev
+      </a>
+      <a routerLink="/legal-notice" class="footer__link">
+        {{ 'LEGAL_NOTICE' | translate }}
+      </a>
+      <a routerLink="/privacy-policy" class="footer__link">
+        {{ 'PRIVACY_POLICY' | translate }}
+      </a>
+    </div>
+
+    <div class="footer__bottom">
+      <span class="footer__copyright">© {{ currentYear }} Dennis Schwarz · All rights reserved.</span>
+      <button
+        type="button"
+        class="footer__top-btn"
+        (click)="scrollToTop()"
+        aria-label="Back to top"
+      >
+        <span>Top</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <path d="M12 19V5M5 12l7-7 7 7" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</footer>
+
