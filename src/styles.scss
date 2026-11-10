@@ -71,42 +71,47 @@ textarea {
   outline-offset: 3px;
 }
 
-.reveal-init {
+[appReveal].reveal-init {
   opacity: 0;
-  transform: translateY(20px);
+  transform: translate3d(0, var(--reveal-distance, 32px), 0);
   transition:
-    opacity 0.65s var(--ease-luxury),
-    transform 0.65s var(--ease-luxury);
-  transition-delay: var(--reveal-delay, 0s);
+    opacity 0.85s var(--ease-luxury) var(--reveal-delay, 0s),
+    transform 0.85s var(--ease-luxury) var(--reveal-delay, 0s),
+    border-color 0.4s var(--ease-luxury),
+    background-color 0.4s var(--ease-luxury),
+    box-shadow 0.4s var(--ease-luxury);
+  will-change: opacity, transform;
 
-  &--scale {
-    transform: translateY(14px) scale(0.98);
+  &.reveal-init--scale {
+    transform: translate3d(0, 24px, 0) scale(0.95);
   }
 
-  &--fade {
-    transform: none;
+  &.reveal-init--fade {
+    transform: translate3d(0, 0, 0);
   }
 
-  &--line {
+  &.reveal-init--line {
     transform: scaleX(0);
     transform-origin: left center;
   }
 
   &.reveal-visible {
     opacity: 1;
-    transform: none;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
+    transform: translate3d(0, 0, 0) scale(1);
   }
 
-  .reveal-init {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
+  &.reveal-init--line.reveal-visible {
+    transform: scaleX(1);
+  }
+
+  /* Reset delay after entrance completes so card hover effects respond immediately */
+  &.reveal-settled {
+    transition:
+      opacity 0.45s var(--ease-luxury),
+      transform 0.45s var(--ease-luxury),
+      border-color 0.4s var(--ease-luxury),
+      background-color 0.4s var(--ease-luxury),
+      box-shadow 0.4s var(--ease-luxury);
   }
 }
 
