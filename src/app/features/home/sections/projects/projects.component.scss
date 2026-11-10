@@ -34,13 +34,9 @@
   border: 1px solid var(--border-subtle);
   border-radius: 5px;
   overflow: hidden;
-  transition:
-    transform 0.45s var(--ease-luxury),
-    border-color 0.45s var(--ease-luxury),
-    box-shadow 0.45s var(--ease-luxury);
 
-  &:hover {
-    transform: translateY(-6px);
+  &.reveal-visible:hover {
+    transform: translate3d(0, -6px, 0);
     border-color: var(--border-hairline-strong);
     box-shadow: 0 22px 48px rgba(0, 0, 0, 0.52), 0 0 0 1px rgba(197, 131, 43, 0.16);
 

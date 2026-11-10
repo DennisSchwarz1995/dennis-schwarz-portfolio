@@ -116,15 +116,11 @@
   border-radius: 4px;
   background-color: var(--bg-surface);
   border: 1px solid var(--border-subtle);
-  transition:
-    border-color 0.35s var(--ease-luxury),
-    background-color 0.35s var(--ease-luxury),
-    transform 0.35s var(--ease-luxury);
 
-  &:hover {
+  &.reveal-visible:hover {
     border-color: var(--border-hairline-strong);
     background-color: var(--bg-surface-elevated);
-    transform: translateX(4px);
+    transform: translate3d(4px, 0, 0);
   }
 
   &__icon {
