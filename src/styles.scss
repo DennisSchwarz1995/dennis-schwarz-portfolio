@@ -32,7 +32,6 @@ body {
   color: var(--text-primary);
 }
 
-/* Custom Dark-Bronze Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -72,7 +71,6 @@ textarea {
   outline-offset: 3px;
 }
 
-/* Hardware-accelerated, flicker-free Scroll Reveal System */
 .reveal-init {
   opacity: 0;
   transform: translateY(20px);
@@ -112,7 +110,6 @@ textarea {
   }
 }
 
-/* Shared Luxury Section Layout */
 .section-container {
   width: 100%;
   max-width: var(--container-max);
@@ -157,7 +154,6 @@ textarea {
   color: var(--text-secondary);
 }
 
-/* Shared Luxury Buttons */
 .btn {
   position: relative;
   display: inline-flex;
