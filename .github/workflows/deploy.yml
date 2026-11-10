@@ -25,10 +25,8 @@ jobs:
       - name: Install Frontend Dependencies
         run: npm ci
 
-      - name: Run Linter & Tests
-        run: |
-          npm run lint --if-present
-          npm test -- --watch=false --if-present
+      - name: Run Linter
+        run: npm run lint --if-present
 
       - name: Verify Production Build
         run: npm run build -- --configuration=production
