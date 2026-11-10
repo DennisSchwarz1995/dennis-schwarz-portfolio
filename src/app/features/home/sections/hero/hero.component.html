@@ -3,10 +3,9 @@
   <div class="hero__grid-lines" aria-hidden="true"></div>
 
   <div class="hero__container">
-    <div class="hero__eyebrow hero__anim hero__anim--1">
-      <span class="" aria-hidden="true"></span>
-      <span>{{ 'OPEN_TO_WORK' | translate }} · {{ 'BASED_IN' | translate }}</span>
-    </div>
+    <p class="hero__greeting hero__anim hero__anim--1">
+      {{ 'HERO_GREETING' | translate }}
+    </p>
 
     <h1 class="hero__title">
       <span class="hero__title-mask">
@@ -21,13 +20,17 @@
       </span>
     </h1>
 
+    <p class="hero__location hero__anim hero__anim--2">
+      {{ 'HERO_LOCATION' | translate }}
+    </p>
+
     <div class="hero__divider hero__anim-line" aria-hidden="true"></div>
 
-    <p class="hero__lead hero__anim hero__anim--2">
+    <p class="hero__lead hero__anim hero__anim--3">
       {{ 'HERO_SUBLINE' | translate }}
     </p>
 
-    <div class="hero__actions hero__anim hero__anim--3">
+    <div class="hero__actions hero__anim hero__anim--4">
       <button type="button" class="btn btn--bronze" (click)="scrollTo('projects')">
         <span>{{ 'CHECK_MY_WORK' | translate }}</span>
         <svg
@@ -50,7 +53,7 @@
     </div>
   </div>
 
-  <footer class="hero__footer hero__anim hero__anim--4">
+  <footer class="hero__footer hero__anim hero__anim--5">
     <button
       type="button"
       class="hero__scroll-cue"

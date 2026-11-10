@@ -1,6 +1,8 @@
 {
   "TITLE": "Frontend Developer",
-  "HERO_SUBLINE": "Precision frontend engineering paired with timeless interface design and self-hosted cloud architecture.",
+  "HERO_GREETING": "Hi, I am",
+  "HERO_LOCATION": "based in Neunkirchen, Saarland, Germany.",
+  "HERO_SUBLINE": "Driven by a deep dedication to detail, I craft refined user interfaces—and self-host this portfolio and every live project on my own server.",
   "NAME": "Dennis Schwarz",
   "COUNTRY": "Germany",
   "ABOUT_ME": "About",

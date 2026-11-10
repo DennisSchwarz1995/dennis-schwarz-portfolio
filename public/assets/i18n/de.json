@@ -1,6 +1,8 @@
 {
   "TITLE": "Frontend Entwickler",
-  "HERO_SUBLINE": "Präzises Frontend-Engineering trifft auf zeitloses Interface-Design und souveräne Server-Architektur.",
+  "HERO_GREETING": "Hi, ich bin",
+  "HERO_LOCATION": "aus Neunkirchen, Saarland, Deutschland.",
+  "HERO_SUBLINE": "Mit viel Hingabe fürs Detail entwickle ich durchdachte Benutzeroberflächen – und hoste dieses Portfolio sowie alle Live-Projekte komplett selbst auf meinem eigenen Server.",
   "NAME": "Dennis Schwarz",
   "COUNTRY": "Deutschland",
   "ABOUT_ME": "Über mich",
