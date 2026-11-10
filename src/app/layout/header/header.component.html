@@ -4,7 +4,6 @@
   [class.header--menu-open]="isMobileMenuOpen()"
 >
   <div class="header__inner">
-    <!-- Brand Monogram + Name -->
     <button type="button" class="brand" (click)="goHome()" aria-label="Dennis Schwarz – Home">
       <span class="brand__monogram" aria-hidden="true">DS</span>
       <span class="brand__text">
@@ -13,23 +12,33 @@
       </span>
     </button>
 
-    <!-- Desktop Navigation -->
     <nav class="nav-desktop" aria-label="Primary Navigation">
       @for (item of navItems; track item.id) {
-        <button type="button" class="nav-desktop__link" (click)="navigate(item.id)">
+        <button
+          type="button"
+          class="nav-desktop__link"
+          [class.nav-desktop__link--active]="activeSection() === item.id"
+          [attr.aria-current]="activeSection() === item.id ? 'location' : null"
+          (click)="navigate(item.id)"
+        >
           {{ item.labelKey | translate }}
         </button>
       }
     </nav>
 
-    <!-- Right Controls: Bilingual Switch DE | EN + Mobile Burger -->
     <div class="header__controls">
       <div class="lang-switch" role="group" aria-label="Language Switcher">
+        <span
+          class="lang-switch__thumb"
+          [class.lang-switch__thumb--en]="i18n.lang() === 'en'"
+          aria-hidden="true"
+        ></span>
         <button
           type="button"
           class="lang-switch__btn"
           [class.lang-switch__btn--active]="i18n.lang() === 'de'"
-          (click)="selectLanguage('de')"
+          [attr.aria-pressed]="i18n.lang() === 'de'"
+          (click)="onLanguageClick('de')"
         >
           DE
         </button>
@@ -37,17 +46,14 @@
           type="button"
           class="lang-switch__btn"
           [class.lang-switch__btn--active]="i18n.lang() === 'en'"
-          (click)="selectLanguage('en')"
+          [attr.aria-pressed]="i18n.lang() === 'en'"
+          (click)="onLanguageClick('en')"
         >
           EN
         </button>
       </div>
 
-      <button
-        type="button"
-        class="header__cta"
-        (click)="navigate('contact')"
-      >
+      <button type="button" class="header__cta" (click)="onLetsTalkClick()">
         {{ 'LETS_TALK' | translate }}
       </button>
 
@@ -65,7 +71,6 @@
     </div>
   </div>
 
-  <!-- Mobile Overlay Navigation -->
   @if (isMobileMenuOpen()) {
     <div class="mobile-drawer">
       <nav class="mobile-drawer__nav" aria-label="Mobile Navigation">
@@ -73,6 +78,7 @@
           <button
             type="button"
             class="mobile-drawer__link"
+            [class.mobile-drawer__link--active]="activeSection() === item.id"
             (click)="navigate(item.id)"
           >
             <span class="mobile-drawer__index">0{{ idx + 1 }}</span>
@@ -86,11 +92,17 @@
           kontakt&#64;dennis-schwarz.dev
         </a>
         <div class="mobile-drawer__socials">
-          <a href="https://github.com/DennisSchwarz1995" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a href="https://www.linkedin.com/in/dennis-schwarz-47ba5b338/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a href="https://github.com/DennisSchwarz1995" target="_blank" rel="noopener noreferrer"
+            >GitHub</a
+          >
+          <a
+            href="https://www.linkedin.com/in/dennis-schwarz-47ba5b338/"
+            target="_blank"
+            rel="noopener noreferrer"
+            >LinkedIn</a
+          >
         </div>
       </div>
     </div>
   }
 </header>
-

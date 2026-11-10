@@ -3,18 +3,19 @@
   top: 0;
   inset-inline: 0;
   z-index: 100;
-  padding: 1.25rem var(--section-pad-x);
+  /* Constant vertical padding prevents header elements from shifting vertically on scroll */
+  padding: 1.05rem var(--section-pad-x);
   transition:
-    padding 0.4s var(--ease-luxury),
     background-color 0.4s var(--ease-luxury),
-    border-color 0.4s var(--ease-luxury);
+    border-color 0.4s var(--ease-luxury),
+    box-shadow 0.4s var(--ease-luxury);
   border-bottom: 1px solid transparent;
 
   &--scrolled,
   &--menu-open {
-    padding-block: 0.85rem;
     background-color: rgba(18, 18, 18, 0.96);
     border-bottom-color: var(--border-hairline);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
   }
 
   &__inner {
@@ -33,7 +34,12 @@
   }
 
   &__cta {
-    padding: 0.58rem 1.15rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    /* Fixed width accommodates both German ('Kontakt aufnehmen') and English ('Let's Talk') without shifting adjacent controls */
+    width: 11.75rem;
+    padding: 0.58rem 0.75rem;
     border-radius: 3px;
     border: 1px solid var(--border-hairline-strong);
     background: rgba(197, 131, 43, 0.08);
@@ -43,6 +49,8 @@
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
+    white-space: nowrap;
+    text-align: center;
     cursor: pointer;
     transition:
       background-color 0.3s var(--ease-luxury),
@@ -156,7 +164,8 @@
       transition: transform 0.35s var(--ease-luxury);
     }
 
-    &:hover {
+    &:hover,
+    &--active {
       color: var(--text-primary);
 
       &::after {
@@ -168,36 +177,62 @@
 }
 
 .lang-switch {
-  display: inline-flex;
+  position: relative;
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr;
   align-items: center;
   padding: 3px;
   border-radius: 999px;
   background-color: var(--bg-surface);
   border: 1px solid var(--border-subtle);
+  user-select: none;
+
+  /* Smooth sliding pill indicator */
+  &__thumb {
+    position: absolute;
+    top: 3px;
+    bottom: 3px;
+    left: 3px;
+    width: calc(50% - 3px);
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--accent-bronze) 0%, var(--accent-bronze-muted) 100%);
+    box-shadow: 0 2px 10px rgba(197, 131, 43, 0.28);
+    transform: translateX(0);
+    transition: transform 0.38s var(--ease-luxury);
+    pointer-events: none;
+    z-index: 0;
+
+    &--en {
+      transform: translateX(100%);
+    }
+  }
 
   &__btn {
+    position: relative;
+    z-index: 1;
     border: 0;
     background: transparent;
     color: var(--text-secondary);
     font-family: var(--font-mono);
     font-size: 0.72rem;
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: 0.08em;
-    padding: 0.3rem 0.68rem;
+    width: 2.45rem;
+    height: 1.65rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
     border-radius: 999px;
     cursor: pointer;
-    transition:
-      background-color 0.28s var(--ease-luxury),
-      color 0.28s var(--ease-luxury);
+    transition: color 0.32s var(--ease-luxury);
 
     &:hover {
       color: var(--text-primary);
     }
 
     &--active {
-      background-color: var(--accent-bronze);
       color: #111111;
-      font-weight: 600;
 
       &:hover {
         color: #111111;
@@ -243,11 +278,10 @@
 
 .mobile-drawer {
   position: fixed;
-  top: 68px;
+  top: 72px;
   inset-inline: 0;
   bottom: 0;
   background-color: rgba(18, 18, 18, 0.98);
-  backdrop-filter: blur(24px);
   padding: 2.5rem var(--section-pad-x);
   display: flex;
   flex-direction: column;
@@ -275,9 +309,14 @@
     font-weight: 600;
     color: var(--text-primary);
     cursor: pointer;
+    transition:
+      color 0.3s ease,
+      border-color 0.3s ease;
 
-    &:hover {
+    &:hover,
+    &--active {
       color: var(--accent-bronze);
+      border-bottom-color: var(--accent-bronze);
     }
   }
 
@@ -324,4 +363,3 @@
     transform: translateY(0);
   }
 }
-
