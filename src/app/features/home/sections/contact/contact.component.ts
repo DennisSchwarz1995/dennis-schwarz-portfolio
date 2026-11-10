@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  effect,
+  inject,
+  signal,
+} from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
@@ -17,8 +24,27 @@ import { ContactService } from '../../../../core/services/contact.service';
 export class ContactComponent {
   private readonly fb = inject(FormBuilder);
   private readonly contactService = inject(ContactService);
+  private readonly destroyRef = inject(DestroyRef);
 
   readonly submitState = signal<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  readonly isInputsHighlighted = signal(false);
+
+  private highlightTimer: ReturnType<typeof setTimeout> | null = null;
+
+  constructor() {
+    effect(() => {
+      const seq = this.contactService.highlightSequence();
+      if (seq > 0) {
+        this.playInputHighlight();
+      }
+    });
+
+    this.destroyRef.onDestroy(() => {
+      if (this.highlightTimer) {
+        clearTimeout(this.highlightTimer);
+      }
+    });
+  }
 
   readonly form = this.fb.nonNullable.group({
     name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(120)]],
@@ -38,6 +64,23 @@ export class ContactComponent {
   hasFieldError(controlName: 'name' | 'email' | 'message' | 'privacyAccepted'): boolean {
     const control = this.form.controls[controlName];
     return control.invalid && (control.touched || control.dirty);
+  }
+
+  private playInputHighlight(): void {
+    if (this.highlightTimer) {
+      clearTimeout(this.highlightTimer);
+      this.highlightTimer = null;
+    }
+
+    // Reset briefly so repeated clicks reliably restart the CSS keyframe animation
+    this.isInputsHighlighted.set(false);
+    setTimeout(() => {
+      this.isInputsHighlighted.set(true);
+      this.highlightTimer = setTimeout(() => {
+        this.isInputsHighlighted.set(false);
+        this.highlightTimer = null;
+      }, 1750);
+    }, 20);
   }
 
   onSubmit(): void {

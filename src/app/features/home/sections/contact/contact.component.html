@@ -34,7 +34,11 @@
           <input id="website" type="text" formControlName="website" tabindex="-1" autocomplete="off" />
         </div>
 
-        <div class="form-field" [class.form-field--invalid]="hasFieldError('name')">
+        <div
+          class="form-field form-field--step-1"
+          [class.form-field--invalid]="hasFieldError('name')"
+          [class.form-field--highlight]="isInputsHighlighted()"
+        >
           <label for="contact-name" class="form-field__label">
             {{ 'CONTACT_ME_FORM_NAME' | translate }}
           </label>
@@ -51,7 +55,11 @@
           }
         </div>
 
-        <div class="form-field" [class.form-field--invalid]="hasFieldError('email')">
+        <div
+          class="form-field form-field--step-2"
+          [class.form-field--invalid]="hasFieldError('email')"
+          [class.form-field--highlight]="isInputsHighlighted()"
+        >
           <label for="contact-email" class="form-field__label">
             {{ 'CONTACT_ME_FORM_EMAIL' | translate }}
           </label>
@@ -68,7 +76,11 @@
           }
         </div>
 
-        <div class="form-field" [class.form-field--invalid]="hasFieldError('message')">
+        <div
+          class="form-field form-field--step-3"
+          [class.form-field--invalid]="hasFieldError('message')"
+          [class.form-field--highlight]="isInputsHighlighted()"
+        >
           <label for="contact-message" class="form-field__label">
             {{ 'CONTACT_ME_FORM_MESSAGE' | translate }}
           </label>

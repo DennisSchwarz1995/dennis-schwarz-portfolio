@@ -144,9 +144,70 @@
     border-color: #d96b59;
   }
 
+  /* Staggered visual highlight wave triggered by the Header CTA without dirtying form controls */
+  &--highlight &__input {
+    animation: contactInputPulse 1.35s var(--ease-luxury) both;
+  }
+
+  &--highlight &__label {
+    animation: contactLabelPulse 1.35s var(--ease-luxury) both;
+  }
+
+  &--step-1#{&}--highlight &__input,
+  &--step-1#{&}--highlight &__label {
+    animation-delay: 0ms;
+  }
+
+  &--step-2#{&}--highlight &__input,
+  &--step-2#{&}--highlight &__label {
+    animation-delay: 130ms;
+  }
+
+  &--step-3#{&}--highlight &__input,
+  &--step-3#{&}--highlight &__label {
+    animation-delay: 260ms;
+  }
+
   &__error {
     font-size: 0.8rem;
     color: #e48374;
+  }
+}
+
+@keyframes contactInputPulse {
+  0% {
+    border-color: var(--border-subtle);
+    box-shadow: 0 0 0 0 rgba(197, 131, 43, 0);
+    background-color: var(--bg-primary);
+  }
+  30% {
+    border-color: var(--accent-bronze);
+    box-shadow:
+      0 0 0 3px rgba(197, 131, 43, 0.25),
+      0 0 24px rgba(197, 131, 43, 0.2);
+    background-color: #1a1612;
+  }
+  65% {
+    border-color: var(--accent-bronze);
+    box-shadow:
+      0 0 0 2px rgba(197, 131, 43, 0.16),
+      0 0 14px rgba(197, 131, 43, 0.12);
+    background-color: #161411;
+  }
+  100% {
+    border-color: var(--border-subtle);
+    box-shadow: 0 0 0 0 rgba(197, 131, 43, 0);
+    background-color: var(--bg-primary);
+  }
+}
+
+@keyframes contactLabelPulse {
+  0%,
+  100% {
+    color: var(--accent-bronze-muted);
+  }
+  35% {
+    color: var(--text-primary);
   }
 }
 
