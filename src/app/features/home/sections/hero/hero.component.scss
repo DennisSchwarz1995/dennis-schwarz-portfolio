@@ -12,23 +12,6 @@
   background-color: var(--bg-primary);
   overflow: hidden;
 
-  /* Pure radial gradient without expensive filter:blur() prevents GPU tile flickering */
-  &__ambient {
-    position: absolute;
-    top: -20%;
-    right: -12%;
-    width: min(860px, 85vw);
-    aspect-ratio: 1;
-    background: radial-gradient(
-      circle,
-      rgba(197, 131, 43, 0.11) 0%,
-      rgba(176, 141, 87, 0.04) 38%,
-      rgba(18, 18, 18, 0) 70%
-    );
-    pointer-events: none;
-    z-index: 0;
-  }
-
   &__grid-lines {
     position: absolute;
     inset: 0;
