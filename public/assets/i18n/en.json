@@ -1,7 +1,7 @@
 {
   "TITLE": "Frontend Developer",
   "HERO_GREETING": "Hi, I am",
-  "HERO_LOCATION": "based in Neunkirchen, Saarland, Germany.",
+  "HERO_LOCATION": "Neunkirchen, Saarland, Germany.",
   "HERO_SUBLINE": "Driven by a deep dedication to detail, I craft refined user interfaces—and self-host this portfolio and every live project on my own server.",
   "NAME": "Dennis Schwarz",
   "COUNTRY": "Germany",
@@ -161,4 +161,3 @@
   "CHANGES_TO_POLICY": "7. Updates to this Privacy Policy",
   "CHANGES_TO_POLICY_TEXT": "We reserve the right to update this privacy policy to reflect changes in legal requirements or our technical infrastructure."
 }
-

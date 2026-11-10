@@ -1,7 +1,7 @@
 {
   "TITLE": "Frontend Entwickler",
   "HERO_GREETING": "Hi, ich bin",
-  "HERO_LOCATION": "aus Neunkirchen, Saarland, Deutschland.",
+  "HERO_LOCATION": "Neunkirchen, Saarland, Deutschland.",
   "HERO_SUBLINE": "Mit viel Hingabe fürs Detail entwickle ich durchdachte Benutzeroberflächen – und hoste dieses Portfolio sowie alle Live-Projekte komplett selbst auf meinem eigenen Server.",
   "NAME": "Dennis Schwarz",
   "COUNTRY": "Deutschland",
@@ -161,4 +161,3 @@
   "CHANGES_TO_POLICY": "7. Aktualität und Änderung dieser Datenschutzerklärung",
   "CHANGES_TO_POLICY_TEXT": "Wir behalten uns vor, diese Datenschutzerklärung anzupassen, damit sie stets den aktuellen rechtlichen Anforderungen entspricht."
 }
-
