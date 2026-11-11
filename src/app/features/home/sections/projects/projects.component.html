@@ -17,7 +17,6 @@
           (keydown.enter)="openProject(project)"
           (keydown.space)="openProject(project); $event.preventDefault()"
         >
-          <!-- Full-Bleed Preview Image & Gradient Scrim -->
           <div class="project-card__backdrop" aria-hidden="true">
             <img
               [src]="project.previewImage"
@@ -28,7 +27,6 @@
             <div class="project-card__scrim"></div>
           </div>
 
-          <!-- Bottom Editorial Overlay -->
           <div class="project-card__body">
             <div class="project-card__meta">
               <div class="project-card__eyebrow">
@@ -130,7 +128,6 @@
     </div>
   </div>
 
-  <!-- Luxury Case-Study Modal -->
   @if (activeProject(); as selected) {
     <div
       class="modal-backdrop"
@@ -241,7 +238,7 @@
         </div>
 
         <footer class="modal__footer">
-          <button type="button" class="modal__step" (click)="stepProject(-1)">
+          <button type="button" class="modal__step modal__step--prev" (click)="stepProject(-1)">
             <svg
               width="16"
               height="16"
@@ -255,7 +252,7 @@
             <span>{{ 'PROJECT_PREV' | translate }}</span>
           </button>
 
-          <button type="button" class="modal__step" (click)="stepProject(1)">
+          <button type="button" class="modal__step modal__step--next" (click)="stepProject(1)">
             <span>{{ 'PROJECT_NEXT' | translate }}</span>
             <svg
               width="16"
