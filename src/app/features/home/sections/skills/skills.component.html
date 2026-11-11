@@ -9,11 +9,6 @@
     <!-- Prominent Flagship Showcase: Self-Hosted Cloud & Container Architecture -->
     <article class="infra-showcase" appReveal="fade-up" [revealDelay]="0.06">
       <div class="infra-showcase__content">
-        <div class="infra-showcase__badge">
-          <span class="infra-showcase__pulse" aria-hidden="true"></span>
-          <span>{{ 'INFRA_EYEBROW' | translate }}</span>
-        </div>
-
         <h3 class="infra-showcase__title">{{ 'SERVER_TITLE' | translate }}</h3>
         <p class="infra-showcase__os">{{ 'SERVER_OS' | translate }}</p>
 
@@ -41,24 +36,54 @@
       <div class="infra-topology" aria-label="Server Architecture Topology">
         <div class="infra-topology__gateway">
           <div class="infra-topology__gateway-icon" aria-hidden="true">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.6"
+            >
               <rect x="3" y="11" width="18" height="11" rx="2" />
               <path d="M7 11V7a5 5 0 0 1 10 0v4" />
             </svg>
           </div>
           <div>
             <span class="infra-topology__gateway-title">Traefik v3 Reverse Proxy</span>
-            <span class="infra-topology__gateway-sub">Let's Encrypt TLS 1.3 · HTTP/3 · Docker Network</span>
+            <span class="infra-topology__gateway-sub"
+              >Let's Encrypt TLS 1.3 · HTTP/3 · Docker Network</span
+            >
           </div>
         </div>
 
         <div class="infra-topology__routes">
           @for (node of topologyNodes; track node.domain) {
-            <div class="infra-route">
-              <span class="infra-route__dot" aria-hidden="true"></span>
+            <a
+              [href]="node.href"
+              [attr.target]="node.external ? '_blank' : null"
+              [attr.rel]="node.external ? 'noopener noreferrer' : null"
+              class="infra-route"
+              (click)="onRouteClick($event, node)"
+            >
               <span class="infra-route__domain">{{ node.domain }}</span>
               <span class="infra-route__role">{{ node.role }}</span>
-            </div>
+              <svg
+                class="infra-route__arrow"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.7"
+                aria-hidden="true"
+              >
+                <path
+                  d="M7 17L17 7M17 7H8M17 7V16"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </a>
           }
         </div>
       </div>
@@ -103,9 +128,21 @@
           </div>
         </div>
 
-        <button type="button" class="btn btn--bronze learning-panel__cta" (click)="scrollToContact()">
+        <button
+          type="button"
+          class="btn btn--bronze learning-panel__cta"
+          (click)="scrollToContact()"
+        >
           <span>{{ 'LETS_TALK' | translate }}</span>
-          <svg class="btn__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <svg
+            class="btn__icon"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+          >
             <path d="M7 17L17 7M17 7H8M17 7V16" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
         </button>
@@ -113,4 +150,3 @@
     </div>
   </div>
 </section>
-
