@@ -1,36 +1,29 @@
 :root {
-  /* Core Dark Surfaces */
   --bg-primary: #121212;
   --bg-surface: #1a1a1a;
   --bg-surface-elevated: #222222;
   --bg-glass: rgba(18, 18, 18, 0.8);
 
-  /* Bronze Accent System */
   --accent-bronze: #c5832b;
   --accent-bronze-hover: #d6933a;
   --accent-bronze-muted: #b08d57;
   --accent-bronze-soft: rgba(197, 131, 43, 0.12);
   --accent-bronze-glow: rgba(197, 131, 43, 0.22);
 
-  /* Borders & Hairlines */
   --border-hairline: rgba(176, 141, 87, 0.22);
   --border-hairline-strong: rgba(197, 131, 43, 0.48);
   --border-subtle: rgba(245, 245, 245, 0.07);
 
-  /* Typography Colors */
   --text-primary: #f5f5f5;
   --text-secondary: #a0a0a0;
   --text-muted: #707070;
 
-  /* Modern Display Sans + Clean Body + Technical Mono */
   --font-display: 'Plus Jakarta Sans Variable', 'Karla', system-ui, -apple-system, sans-serif;
   --font-sans: 'Karla', system-ui, -apple-system, sans-serif;
   --font-mono: 'Fira Code', ui-monospace, SFMono-Regular, monospace;
 
-  /* Motion & Layout */
   --ease-luxury: cubic-bezier(0.16, 1, 0.3, 1);
   --container-max: 1320px;
   --section-pad-y: clamp(5.5rem, 10vh, 8.5rem);
   --section-pad-x: clamp(1.25rem, 5vw, 4rem);
 }
-

@@ -225,7 +225,6 @@ textarea {
   }
 }
 
-/* Custom Speech-Bubble Tooltip (top [default], bottom, left, right) */
 .app-tooltip-host {
   position: relative;
 }
@@ -255,7 +254,6 @@ textarea {
     transform 0.24s var(--ease-luxury),
     visibility 0.24s var(--ease-luxury);
 
-  /* Speech-bubble pointer tail */
   &::after {
     content: '';
     position: absolute;
