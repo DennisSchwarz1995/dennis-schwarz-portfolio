@@ -6,90 +6,308 @@
       <p class="section-lead">{{ 'JOURNEY' | translate }}</p>
     </header>
 
-    <!-- Prominent Flagship Showcase: Self-Hosted Cloud & Container Architecture -->
     <article class="infra-showcase" appReveal="fade-up" [revealDelay]="0.06">
-      <div class="infra-showcase__content">
+      <header class="infra-showcase__header">
         <h3 class="infra-showcase__title">{{ 'SERVER_TITLE' | translate }}</h3>
         <p class="infra-showcase__os">{{ 'SERVER_OS' | translate }}</p>
+        <p class="infra-showcase__description">{{ 'SERVER_INFO' | translate }}</p>
+      </header>
 
-        <p class="infra-showcase__description">
-          {{ 'SERVER_INFO' | translate }}
-        </p>
-
-        <div class="infra-showcase__metrics">
-          <div class="infra-metric">
-            <span class="infra-metric__label">{{ 'INFRA_METRIC_1_LABEL' | translate }}</span>
-            <strong class="infra-metric__value">{{ 'INFRA_METRIC_1_VALUE' | translate }}</strong>
-          </div>
-          <div class="infra-metric">
-            <span class="infra-metric__label">{{ 'INFRA_METRIC_2_LABEL' | translate }}</span>
-            <strong class="infra-metric__value">{{ 'INFRA_METRIC_2_VALUE' | translate }}</strong>
-          </div>
-          <div class="infra-metric">
-            <span class="infra-metric__label">{{ 'INFRA_METRIC_3_LABEL' | translate }}</span>
-            <strong class="infra-metric__value">{{ 'INFRA_METRIC_3_VALUE' | translate }}</strong>
-          </div>
-        </div>
-      </div>
-
-      <!-- Visual Architecture Topology Card -->
-      <div class="infra-topology" aria-label="Server Architecture Topology">
-        <div class="infra-topology__gateway">
-          <div class="infra-topology__gateway-icon" aria-hidden="true">
-            <svg
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.6"
+      <div class="infra-showcase__layout">
+        <div class="arch" role="group" [attr.aria-label]="'SERVER_TITLE' | translate">
+          <div class="arch__sources">
+            <button
+              type="button"
+              class="arch-node"
+              [class.is-active]="focusLayer() === 'edge'"
+              aria-controls="infra-panel-edge"
+              [attr.aria-expanded]="openLayer() === 'edge'"
+              (click)="selectLayer('edge')"
+              (mouseenter)="previewLayer('edge')"
+              (mouseleave)="previewLayer(null)"
+              (focus)="previewLayer('edge')"
+              (blur)="previewLayer(null)"
             >
-              <rect x="3" y="11" width="18" height="11" rx="2" />
-              <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-            </svg>
-          </div>
-          <div>
-            <span class="infra-topology__gateway-title">Traefik v3 Reverse Proxy</span>
-            <span class="infra-topology__gateway-sub"
-              >Let's Encrypt TLS 1.3 · HTTP/3 · Docker Network</span
-            >
-          </div>
-        </div>
+              <span class="arch-node__icon" aria-hidden="true">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                >
+                  <circle cx="12" cy="12" r="9" />
+                  <path
+                    d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"
+                    stroke-linecap="round"
+                  />
+                </svg>
+              </span>
+              <span class="arch-node__text">
+                <span class="arch-node__title">{{ 'ARCH_CLIENT_TITLE' | translate }}</span>
+                <span class="arch-node__sub">{{ 'ARCH_CLIENT_SUB' | translate }}</span>
+              </span>
+            </button>
 
-        <div class="infra-topology__routes">
-          @for (node of topologyNodes; track node.domain) {
-            <a
-              [href]="node.href"
-              [attr.target]="node.external ? '_blank' : null"
-              [attr.rel]="node.external ? 'noopener noreferrer' : null"
-              class="infra-route"
-              (click)="onRouteClick($event, node)"
+            <button
+              type="button"
+              class="arch-node"
+              [class.is-active]="focusLayer() === 'cicd'"
+              aria-controls="infra-panel-cicd"
+              [attr.aria-expanded]="openLayer() === 'cicd'"
+              (click)="selectLayer('cicd')"
+              (mouseenter)="previewLayer('cicd')"
+              (mouseleave)="previewLayer(null)"
+              (focus)="previewLayer('cicd')"
+              (blur)="previewLayer(null)"
             >
-              <span class="infra-route__domain">{{ node.domain }}</span>
-              <span class="infra-route__role">{{ node.role }}</span>
+              <span class="arch-node__icon" aria-hidden="true">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                >
+                  <circle cx="6" cy="5" r="2" />
+                  <circle cx="6" cy="19" r="2" />
+                  <circle cx="18" cy="7" r="2" />
+                  <path d="M6 7v10M18 9a8 8 0 0 1-8 8H8" stroke-linecap="round" />
+                </svg>
+              </span>
+              <span class="arch-node__text">
+                <span class="arch-node__title">{{ 'ARCH_CICD_TITLE' | translate }}</span>
+                <span class="arch-node__sub">{{ 'ARCH_CICD_SUB' | translate }}</span>
+              </span>
+            </button>
+          </div>
+
+          <div class="arch__links" aria-hidden="true">
+            <div class="arch-link" [class.is-active]="focusLayer() === 'edge'">
+              <span class="arch-link__line"></span>
+              <span class="arch-link__label">{{ 'ARCH_LINK_REQUEST' | translate }}</span>
+            </div>
+            <div class="arch-link arch-link--delayed" [class.is-active]="focusLayer() === 'cicd'">
+              <span class="arch-link__line"></span>
+              <span class="arch-link__label">{{ 'ARCH_LINK_DEPLOY' | translate }}</span>
+            </div>
+          </div>
+
+          <div class="arch__host">
+            <span class="arch__host-label">
               <svg
-                class="infra-route__arrow"
                 width="14"
                 height="14"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                stroke-width="1.7"
+                stroke-width="1.6"
                 aria-hidden="true"
               >
-                <path
-                  d="M7 17L17 7M17 7H8M17 7V16"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
+                <rect x="3" y="4" width="18" height="7" rx="1.5" />
+                <rect x="3" y="13" width="18" height="7" rx="1.5" />
+                <path d="M7 7.5h.01M7 16.5h.01" stroke-linecap="round" stroke-width="2.4" />
               </svg>
-            </a>
+              {{ 'ARCH_HOST_LABEL' | translate }}
+            </span>
+
+            <div class="infra-topology">
+              <button
+                type="button"
+                class="infra-topology__gateway"
+                [class.is-active]="focusLayer() === 'proxy'"
+                aria-controls="infra-panel-proxy"
+                [attr.aria-expanded]="openLayer() === 'proxy'"
+                (click)="selectLayer('proxy')"
+                (mouseenter)="previewLayer('proxy')"
+                (mouseleave)="previewLayer(null)"
+                (focus)="previewLayer('proxy')"
+                (blur)="previewLayer(null)"
+              >
+                <span class="infra-topology__gateway-icon" aria-hidden="true">
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                  >
+                    <rect x="3" y="11" width="18" height="11" rx="2" />
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                  </svg>
+                </span>
+                <span>
+                  <span class="infra-topology__gateway-title">Traefik v3 Reverse Proxy</span>
+                  <span class="infra-topology__gateway-sub"
+                    >Let's Encrypt TLS 1.3 · HTTP/3 · Docker Network</span
+                  >
+                </span>
+              </button>
+
+              <div
+                class="infra-topology__connector"
+                [class.is-active]="
+                  focusLayer() === 'proxy' || focusLayer() === 'apps' || focusLayer() === 'mailer'
+                "
+                aria-hidden="true"
+              >
+                <span class="infra-topology__connector-stem"></span>
+                <span class="infra-topology__network">{{ 'ARCH_NETWORK_LABEL' | translate }}</span>
+              </div>
+
+              <div
+                class="infra-topology__routes"
+                [class.is-routing-active]="
+                  focusLayer() === 'proxy' || focusLayer() === 'apps' || focusLayer() === 'mailer'
+                "
+              >
+                @for (node of topologyNodes; track node.domain) {
+                  <div
+                    class="infra-route"
+                    role="button"
+                    tabindex="0"
+                    [class.is-active]="focusLayer() === node.layer"
+                    [attr.aria-controls]="'infra-panel-' + node.layer"
+                    [attr.aria-expanded]="openLayer() === node.layer"
+                    (click)="selectLayer(node.layer)"
+                    (keydown.enter)="selectLayer(node.layer)"
+                    (keydown.space)="selectLayer(node.layer); $event.preventDefault()"
+                    (mouseenter)="previewLayer(node.layer)"
+                    (mouseleave)="previewLayer(null)"
+                    (focus)="previewLayer(node.layer)"
+                    (blur)="previewLayer(null)"
+                  >
+                    <span class="infra-route__domain">{{ node.domain }}</span>
+                    <span class="infra-route__role">{{ node.role }}</span>
+                    <a
+                      [href]="node.href"
+                      [attr.target]="node.external ? '_blank' : null"
+                      [attr.rel]="node.external ? 'noopener noreferrer' : null"
+                      class="infra-route__action"
+                      [appTooltip]="
+                        (node.external ? 'ARCH_OPEN_LIVE' : 'ARCH_OPEN_CONTACT') | translate
+                      "
+                      [attr.aria-label]="
+                        node.domain +
+                        ' – ' +
+                        ((node.external ? 'ARCH_OPEN_LIVE' : 'ARCH_OPEN_CONTACT') | translate)
+                      "
+                      (click)="onRouteActionClick($event, node)"
+                    >
+                      <svg
+                        class="infra-route__arrow"
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.7"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M7 17L17 7M17 7H8M17 7V16"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    </a>
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+
+          <div class="arch__outbound" aria-hidden="true">
+            <div class="arch-link" [class.is-active]="focusLayer() === 'mailer'">
+              <span class="arch-link__line"></span>
+              <span class="arch-link__label">{{ 'ARCH_LINK_SMTP' | translate }}</span>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            class="arch-node arch-node--outbound"
+            [class.is-active]="focusLayer() === 'mailer'"
+            aria-controls="infra-panel-mailer"
+            [attr.aria-expanded]="openLayer() === 'mailer'"
+            (click)="selectLayer('mailer')"
+            (mouseenter)="previewLayer('mailer')"
+            (mouseleave)="previewLayer(null)"
+            (focus)="previewLayer('mailer')"
+            (blur)="previewLayer(null)"
+          >
+            <span class="arch-node__icon" aria-hidden="true">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+              >
+                <rect x="3" y="5" width="18" height="14" rx="2" />
+                <path d="M3 7l9 6 9-6" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+            <span class="arch-node__text">
+              <span class="arch-node__title">{{ 'ARCH_SMTP_TITLE' | translate }}</span>
+              <span class="arch-node__sub">{{ 'ARCH_SMTP_SUB' | translate }}</span>
+            </span>
+          </button>
+        </div>
+
+        <div class="infra-accordion">
+          <p class="infra-accordion__hint">{{ 'INFRA_DIAGRAM_HINT' | translate }}</p>
+
+          @for (layer of infraLayers; track layer.id) {
+            <div
+              class="infra-acc"
+              [class.is-open]="openLayer() === layer.id"
+              [class.is-highlighted]="hoverLayer() === layer.id"
+            >
+              <h4 class="infra-acc__heading">
+                <button
+                  type="button"
+                  class="infra-acc__trigger"
+                  [id]="'infra-trigger-' + layer.id"
+                  [attr.aria-controls]="'infra-panel-' + layer.id"
+                  [attr.aria-expanded]="openLayer() === layer.id"
+                  (click)="toggleLayer(layer.id)"
+                  (mouseenter)="previewLayer(layer.id)"
+                  (mouseleave)="previewLayer(null)"
+                >
+                  <span class="infra-acc__index">{{ layer.index }}</span>
+                  <span class="infra-acc__title">{{ layer.titleKey | translate }}</span>
+                  <span class="infra-acc__icon" aria-hidden="true"></span>
+                </button>
+              </h4>
+
+              <div
+                class="infra-acc__panel"
+                role="region"
+                [id]="'infra-panel-' + layer.id"
+                [attr.aria-labelledby]="'infra-trigger-' + layer.id"
+              >
+                <div class="infra-acc__panel-inner">
+                  <div class="infra-acc__content">
+                    <p class="infra-acc__text">{{ layer.textKey | translate }}</p>
+                    <ul class="infra-acc__chips">
+                      @for (chip of layer.chips; track chip) {
+                        <li class="infra-acc__chip">{{ chip }}</li>
+                      }
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
           }
         </div>
       </div>
     </article>
 
-    <!-- Bento Grid: Core Frontend Stack + Currently Exploring -->
     <div class="skills__bento">
       <div class="stack-panel" appReveal="fade-up" [revealDelay]="0.12">
         <h3 class="stack-panel__heading">{{ 'CORE_STACK_LABEL' | translate }}</h3>
