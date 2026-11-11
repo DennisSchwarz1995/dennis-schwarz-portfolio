@@ -3,7 +3,6 @@
   top: 0;
   inset-inline: 0;
   z-index: 100;
-  /* Constant vertical padding prevents header elements from shifting vertically on scroll */
   padding: 1.05rem var(--section-pad-x);
   transition:
     background-color 0.4s var(--ease-luxury),
@@ -37,7 +36,6 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    /* Fixed width accommodates both German ('Kontakt aufnehmen') and English ('Let's Talk') without shifting adjacent controls */
     width: 11.75rem;
     padding: 0.58rem 0.75rem;
     border-radius: 3px;
@@ -187,7 +185,6 @@
   border: 1px solid var(--border-subtle);
   user-select: none;
 
-  /* Smooth sliding pill indicator */
   &__thumb {
     position: absolute;
     top: 3px;
