@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { PORTFOLIO_PROJECTS } from '../../../../core/data/portfolio.data';
 import { ScrollRevealDirective } from '../../../../core/directives/scroll-reveal.directive';
+import { TooltipDirective } from '../../../../core/directives/tooltip.directive';
 import { ProjectItem } from '../../../../core/models/portfolio.models';
 import { TranslatePipe } from '../../../../core/pipes/translate.pipe';
 import { SmoothScrollService } from '../../../../core/services/smooth-scroll.service';
@@ -14,7 +15,7 @@ import { SmoothScrollService } from '../../../../core/services/smooth-scroll.ser
 @Component({
   selector: 'app-projects',
   standalone: true,
-  imports: [TranslatePipe, ScrollRevealDirective],
+  imports: [TranslatePipe, ScrollRevealDirective, TooltipDirective],
   templateUrl: './projects.component.html',
   styleUrl: './projects.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
