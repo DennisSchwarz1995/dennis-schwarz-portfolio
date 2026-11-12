@@ -89,27 +89,6 @@ export class HeaderComponent {
     void this.smoothScroll.navigateToSection(sectionId);
   }
 
-  onLetsTalkClick(): void {
-    if (this.isMobileMenuOpen()) {
-      this.closeMobileMenu();
-    }
-
-    const contactEl = this.doc.getElementById('contact');
-    const distance = contactEl ? Math.abs(contactEl.getBoundingClientRect().top) : 999;
-    const delayMs = distance < 280 ? 140 : 520;
-
-    this.activeSection.set('contact');
-    void this.smoothScroll.navigateToSection('contact');
-
-    if (this.highlightDelayTimer) {
-      clearTimeout(this.highlightDelayTimer);
-    }
-    this.highlightDelayTimer = setTimeout(() => {
-      this.contactService.triggerInputHighlight();
-      this.highlightDelayTimer = null;
-    }, delayMs);
-  }
-
   goHome(): void {
     if (this.isMobileMenuOpen()) {
       this.closeMobileMenu();
