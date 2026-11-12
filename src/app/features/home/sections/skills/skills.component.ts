@@ -39,7 +39,6 @@ export class SkillsComponent {
     PORTFOLIO_SKILLS.filter((s) => s.category === 'exploring'),
   );
 
-  /** Accordion content describing each layer of the architecture diagram */
   readonly infraLayers: readonly InfraLayer[] = [
     {
       id: 'edge',
@@ -136,21 +135,16 @@ export class SkillsComponent {
     },
   ];
 
-  /** Currently expanded accordion item (null = all collapsed) */
   readonly openLayer = signal<InfraLayerId | null>('proxy');
 
-  /** Transient preview while hovering a diagram node or accordion header */
   readonly hoverLayer = signal<InfraLayerId | null>(null);
 
-  /** Layer highlighted in the diagram: hover preview wins over the expanded item */
   readonly focusLayer = computed(() => this.hoverLayer() ?? this.openLayer());
 
-  /** Diagram nodes always open their accordion item (never collapse it) */
   selectLayer(id: InfraLayerId): void {
     this.openLayer.set(id);
   }
 
-  /** Accordion headers behave like a classic single-open accordion */
   toggleLayer(id: InfraLayerId): void {
     this.openLayer.set(this.openLayer() === id ? null : id);
   }
