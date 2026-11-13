@@ -6,9 +6,57 @@ import nodemailer from 'nodemailer';
 const app = express();
 const PORT = Number(process.env.PORT || 3000);
 
+const STATIC_ALLOWED_ORIGINS = (process.env.CORS_ORIGINS || '')
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
+const ALLOWED_ORIGIN_PATTERNS = [
+  /^https:\/\/([a-z0-9-]+\.)?dennis-schwarz\.dev$/i,
+  /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i,
+];
+
+function isOriginAllowed(origin) {
+  if (!origin) {
+    return false;
+  }
+  return (
+    STATIC_ALLOWED_ORIGINS.includes(origin) ||
+    ALLOWED_ORIGIN_PATTERNS.some((pattern) => pattern.test(origin))
+  );
+}
+
 app.set('trust proxy', 1);
 
-app.use(helmet());
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: 'cross-origin' },
+  }),
+);
+
+// Allow cross-origin requests only from explicit allowlisted origins (no credentials)
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  const allowed = isOriginAllowed(origin);
+
+  if (allowed) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Vary', 'Origin');
+    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Access-Control-Max-Age', '86400');
+  }
+
+  if (req.method === 'OPTIONS') {
+    if (origin && !allowed) {
+      return res.sendStatus(403);
+    }
+    return res.sendStatus(204);
+  }
+
+  return next();
+});
+
 app.use(express.json({ limit: '32kb' }));
 
 const contactLimiter = rateLimit({
